@@ -1,6 +1,7 @@
 from typing import List
 from agentverse.agents import Agent
 from agentverse.task import Task
+from agentverse.llm import get_llm_client
 
 
 class ManagerAgent(Agent):
@@ -17,8 +18,22 @@ class ManagerAgent(Agent):
 
     def orchestrate_task(self, tasks: List[Task]) -> None:
         """Orchestrate a list of tasks and assign them to available agents."""
+        client = get_llm_client()
         for task in tasks:
             if task.status == "pending" and self.managed_agents:
+                try:
+                    response = client.chat.completions.create(
+                        model="gpt-4o-mini",
+                        messages=[
+                            {"role": "system", "content": "You are a helpful manager agent."},
+                            {"role": "user", "content": f"Decide how to handle task: {task.description}"}
+                        ]
+                    )
+                    reasoning = response.choices[0].message.content
+                    print(f"Manager reasoning for task {task.task_id}: {reasoning}")
+                except Exception as e:
+                    print(f"LLM call failed: {e}")
+
                 # Simple round-robin or first available agent assignment logic for now
                 assigned_agent = self.managed_agents[0]
                 self.assign_task(task, assigned_agent)
