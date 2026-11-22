@@ -15,9 +15,14 @@ def main():
 
     sample_tasks = [task1, task2, task3, task4]
 
-    # Orchestrate the tasks
+    # Orchestrate the tasks and demonstrate LLM reasoning integration
     print("\nOrchestrating tasks...")
     manager.orchestrate_task(sample_tasks)
+
+    print("\nExecuting sample task with LLM reasoning...")
+    result = manager.run(task1)
+    print(f"LLM-generated output for task '{task1.description}':")
+    print(result)
     print("Task orchestration complete.")
 
 if __name__ == "__main__":
