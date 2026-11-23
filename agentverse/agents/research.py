@@ -10,9 +10,11 @@ class ResearchAgent(Agent):
         self,
         name: str,
         description: str,
+        llm_client=None,
         user_stories: Optional[List[str]] = None,
     ):
         super().__init__(name, description)
+        self.llm_client = llm_client
         self.user_stories = user_stories if user_stories else []
 
     def add_user_story(self, user_story: str):
