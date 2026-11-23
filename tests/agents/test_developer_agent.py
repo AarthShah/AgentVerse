@@ -23,6 +23,25 @@ class TestDeveloperAgent(unittest.TestCase):
         self.assertEqual(code, "print('Hello, World!')")
         self.mock_llm_client.chat.completions.create.assert_called_once()
 
+    def test_generate_code_exception_fallback(self):
+        self.mock_llm_client.chat.completions.create.side_effect = Exception("API error")
+
+        instruction = "Write a python script that prints Hello, World!"
+        code = self.agent.generate_code(instruction)
+
+        self.assertEqual(code, "# Placeholder code\npass")
+        self.mock_llm_client.chat.completions.create.assert_called_once()
+
+
+    def test_generate_code_exception_fallback_again(self):
+        self.mock_llm_client.chat.completions.create.side_effect = Exception("Another error")
+
+        instruction = "Write a python script that prints Hello, World!"
+        code = self.agent.generate_code(instruction)
+
+        self.assertEqual(code, "# Placeholder code\npass")
+        self.mock_llm_client.chat.completions.create.assert_called_once()
+
 
 if __name__ == "__main__":
     unittest.main()
