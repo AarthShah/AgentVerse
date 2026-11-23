@@ -24,9 +24,23 @@ class DeveloperAgent(Agent):
         super().__init__(name=name, description=description)
         self.llm_client = llm_client
 
+    def _call_llm(self, prompt: str) -> str:
+        if self.llm_client is None:
+            return f"# Implementation stub\npass\n"
+        
+        response = self.llm_client.chat.completions.create(
+            model="gpt-4",
+            messages=[{"role": "user", "content": prompt}],
+        )
+        return response.choices[0].message.content
+
+    def generate_code(self, instruction: str) -> str:
+        prompt = self.CODE_PROMPT.format(instruction=instruction)
+        response = self._call_llm(prompt)
+        return response.strip()
+
     def run(self, task: Task, *args, **kwargs) -> str:
         """
         Execute code generation for a given task.
         """
-        # Placeholder code generation stub
-        return f"# Implementation for task: {task.task_id}\npass\n"
+        return self.generate_code(task.description)
