@@ -1,8 +1,23 @@
 from agentverse.agents.manager import ManagerAgent
+from agentverse.agents.research import ResearchAgent
 from agentverse.task import Task
 
 def main():
     print("AgentVerse is starting...")
+
+    # Instantiate the ResearchAgent and analyze requirements
+    researcher = ResearchAgent(
+        name="Researcher",
+        description="Analyzes project requirements and user stories.",
+        user_stories=[
+            "As a user, I want to securely log in with my username and password.",
+            "As a user, I want to retrieve my account profile data via an API endpoint."
+        ]
+    )
+
+    print("Analyzing project requirements and user stories...")
+    analyzed_tasks = researcher.analyze_requirements()
+    print(f"Generated tasks from requirements: {analyzed_tasks}")
 
     # Instantiate the ManagerAgent
     manager = ManagerAgent(name="Manager", description="Manages task orchestration and agent assignment.")
