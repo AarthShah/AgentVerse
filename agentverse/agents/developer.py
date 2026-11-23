@@ -5,6 +5,11 @@ from agentverse.agents import Agent
 from agentverse.task import Task
 
 
+class DeveloperAgentError(Exception):
+    """Custom exception raised by DeveloperAgent during execution failures."""
+    pass
+
+
 class DeveloperAgent(Agent):
     """
     Developer Agent: Responsible for generating code based on structured tasks and requirements.
@@ -28,11 +33,10 @@ class DeveloperAgent(Agent):
         if self.llm_client is None:
             return f"# Implementation stub\npass\n"
         
-        response = self.llm_client.chat.completions.create(
-            model="gpt-4",
-            messages=[{"role": "user", "content": prompt}],
-        )
-        return response.choices[0].message.content
+        try:
+            return self.llm_client.generate(prompt)
+        except Exception as e:
+            raise DeveloperAgentError(f"LLM call failed: {e}") from e
 
     def generate_code(self, instruction: str) -> str:
         prompt = self.CODE_PROMPT.format(instruction=instruction)
