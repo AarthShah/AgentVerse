@@ -42,6 +42,25 @@ class TestDeveloperAgent(unittest.TestCase):
         self.assertEqual(code, "# Placeholder code\npass")
         self.mock_llm_client.chat.completions.create.assert_called_once()
 
+    def test_generate_code_empty_instruction(self):
+        self.mock_llm_client.chat.completions.create.return_value.choices[0].message.content = (
+            "# Empty instruction handled\npass"
+        )
+
+        instruction = ""
+        code = self.agent.generate_code(instruction)
+
+        self.assertEqual(code, "# Empty instruction handled\npass")
+        self.mock_llm_client.chat.completions.create.assert_called_once()
+
+    def test_generate_code_none_instruction(self):
+        self.mock_llm_client.chat.completions.create.side_effect = Exception("Invalid instruction")
+
+        code = self.agent.generate_code(None)
+
+        self.assertEqual(code, "# Placeholder code\npass")
+        self.mock_llm_client.chat.completions.create.assert_called_once()
+
 
 if __name__ == "__main__":
     unittest.main()
