@@ -6,7 +6,7 @@ from agentverse.task import Task
 
 
 class DeveloperAgentError(Exception):
-    """Custom exception raised by DeveloperAgent during execution failures."""
+    """Exception raised by DeveloperAgent for errors during code generation."""
     pass
 
 
