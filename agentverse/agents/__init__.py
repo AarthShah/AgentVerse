@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from agentverse.agents.research import ResearchAgent
 
 class Agent(ABC):
     def __init__(self, name: str, description: str):
