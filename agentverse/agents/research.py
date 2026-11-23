@@ -5,6 +5,10 @@ from typing import List, Optional
 class ResearchAgent(Agent):
     """
     Research Agent: Analyzes project requirements and user stories.
+    
+    Responsible for breaking down user stories, identifying key features, potential
+    ambiguities, and high-level technical considerations to generate structured tasks
+    for the development lifecycle.
     """
     def __init__(
         self,
@@ -13,18 +17,40 @@ class ResearchAgent(Agent):
         llm_client=None,
         user_stories: Optional[List[str]] = None,
     ):
+        """
+        Initializes the ResearchAgent with name, description, optional LLM client, and user stories.
+
+        Args:
+            name (str): The name of the research agent. Expected input format: non-empty string.
+            description (str): A description of the research agent's role. Expected input format: string.
+            llm_client (optional): The LLM client used for processing and analysis. Defaults to None.
+            user_stories (Optional[List[str]], optional): Initial list of user stories. Expected input format: list of strings. Defaults to None.
+
+        Returns:
+            None
+        """
         super().__init__(name, description)
         self.llm_client = llm_client
         self.user_stories = user_stories if user_stories else []
 
     def add_user_story(self, user_story: str):
-        """Adds a user story to the research agent's backlog."""
+        """
+        Adds a user story to the research agent's backlog.
+
+        Args:
+            user_story (str): The user story description to add.
+        """
         self.user_stories.append(user_story)
 
     def analyze_requirements(self) -> List[Task]:
         """
         Analyzes the gathered user stories and generates initial tasks.
-        This is a placeholder for the actual requirement analysis logic.
+
+        Uses the LLM client when available to extract key features, ambiguities,
+        and technical considerations, returning a structured list of Task objects.
+
+        Returns:
+            List[Task]: A list of generated Task objects derived from the requirements analysis.
         """
         tasks = []
         if not self.user_stories:
@@ -66,10 +92,19 @@ Structured Analysis:
                 tasks.append(Task(task_id="analyze_stories_fallback", description="Review user stories and identify core requirements."))
         return tasks
 
-    def run(self, *args, **kwargs):
+    def run(self, *args, **kwargs) -> List[Task]:
         """
         The main execution method for the Research Agent.
-        Currently, it analyzes requirements if user stories are available.
+
+        Evaluates the current state of user stories and performs requirement analysis
+        if stories are present, otherwise awaits input.
+
+        Args:
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments.
+
+        Returns:
+            List[Task]: The list of tasks resulting from the execution.
         """
         if self.user_stories:
             print(f"Research Agent {self.name}: Analyzing requirements...")
