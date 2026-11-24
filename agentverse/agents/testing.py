@@ -19,6 +19,22 @@ class TestingAgent(Agent):
         super().__init__(name, description)
         self.llm_client = llm_client
 
+    def _generate_test_cases_prompt(self, code: str) -> str:
+        """Constructs the prompt for test case generation."""
+        prompt_template = f"""
+You are a Testing Agent. Your task is to generate comprehensive test cases for the following Python code.
+Ensure the test cases cover various scenarios, including edge cases and potential error conditions.
+Provide the test cases in a format that can be directly used with a testing framework like pytest.
+
+Here is the code:
+```python
+{code}
+```
+
+Generate the test cases below:
+"""
+        return prompt_template
+
     def generate_test_cases(self, code: str) -> List[str]:
         """
         Generates test cases for the given Python code.
