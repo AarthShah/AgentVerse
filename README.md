@@ -2,6 +2,10 @@
 AgentVerse is an AI-powered platform where specialized agents collaboratively develop software applications. It aims to automate the complete software development lifecycle by having agents for management, research, development, testing, and security work together.
 Tech stack: Python, LangChain, OpenAI API, Docker
 
+## Testing Agent
+The TestingAgent is responsible for generating test cases for code produced by the DeveloperAgent. It ensures code quality and functionality by creating a suite of tests.
+
+
 ## Today's goal
 Setup Project Structure and Basic Configuration: Initialize the project with a standard directory structure and set up basic configuration files.
 
