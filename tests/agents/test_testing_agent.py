@@ -42,3 +42,14 @@ class TestTestingAgent(unittest.TestCase):
 
         self.assertEqual(result, ["def test_foo(): pass", "def test_bar(): pass"])
         mock_llm_client.invoke.assert_called_once()
+
+    def test_generate_test_cases_error_handling(self):
+        mock_llm_client = MagicMock()
+        mock_llm_client.invoke.side_effect = Exception("LLM Error")
+
+        agent = TestingAgent(llm_client=mock_llm_client)
+        code = "def foo(): return 42"
+        result = agent.generate_test_cases(code)
+
+        self.assertEqual(result, ["Error generating test cases."])
+        mock_llm_client.invoke.assert_called_once()
