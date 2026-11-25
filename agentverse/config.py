@@ -13,6 +13,12 @@ DEFAULT_TEMPERATURE = 0.7
 # Testing Agent settings
 # TODO: Add specific configurations for the Testing Agent if needed in the future.
 
+# Security Agent settings
+security_agent_config = {
+    "enabled": True,
+    "scan_timeout": 30,
+}
+
 
 def get_openai_api_key() -> str:
     """Retrieve the OpenAI API key, raising a ValueError if not set."""
