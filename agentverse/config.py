@@ -10,6 +10,9 @@ OPENAI_MODEL_NAME = os.getenv("OPENAI_MODEL_NAME", "gpt-4")
 DEFAULT_MAX_ITERATIONS = 10
 DEFAULT_TEMPERATURE = 0.7
 
+# Testing Agent settings
+# TODO: Add specific configurations for the Testing Agent if needed in the future.
+
 
 def get_openai_api_key() -> str:
     """Retrieve the OpenAI API key, raising a ValueError if not set."""
