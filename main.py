@@ -1,5 +1,6 @@
 from agentverse.agents.manager import ManagerAgent
 from agentverse.agents.research import ResearchAgent
+from agentverse.agents.security import SecurityAgent
 from agentverse.agents.testing import TestingAgent
 from agentverse.llm import get_llm_client
 from agentverse.task import Task
@@ -28,6 +29,9 @@ def main():
 
     # Instantiate the TestingAgent
     testing_agent = TestingAgent(name="Tester", description="Generates test cases for given code.", llm_client=llm_client)
+
+    # Instantiate the SecurityAgent
+    security_agent = SecurityAgent(name="Security", description="Performs vulnerability scans.", llm_client=llm_client)
 
     # Create sample tasks
     task1 = Task(task_id="1", description="Develop user authentication module.")
@@ -60,6 +64,12 @@ def authenticate_user(username, password):
     test_cases = testing_agent.generate_test_cases(placeholder_code)
     print("Generated test cases:")
     print(test_cases)
+
+    # Demonstrate SecurityAgent
+    print("\nScanning code for vulnerabilities...")
+    scan_results = security_agent.scan_for_vulnerabilities(placeholder_code)
+    print("Security scan results:")
+    print(scan_results)
 
     print("Task orchestration complete.")
 
