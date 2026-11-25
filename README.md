@@ -5,6 +5,9 @@ Tech stack: Python, LangChain, OpenAI API, Docker
 ## Testing Agent
 The TestingAgent is responsible for generating test cases for code produced by the DeveloperAgent. It ensures code quality and functionality by creating a suite of tests.
 
+## Security Agent
+The SecurityAgent performs vulnerability scans and checks code for common security issues to ensure secure application development.
+
 
 ## Today's goal
 Setup Project Structure and Basic Configuration: Initialize the project with a standard directory structure and set up basic configuration files.

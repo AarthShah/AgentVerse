@@ -3,3 +3,4 @@ openai>=1.0.0
 pydantic>=2.0.0
 # No additional dependencies required for Research Agent
 # Testing Agent has no new dependencies
+# Security Agent has no additional dependencies beyond LangChain and OpenAI
