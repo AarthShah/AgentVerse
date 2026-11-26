@@ -1,8 +1,10 @@
+from agentverse.agents.developer import DeveloperAgent
 from agentverse.agents.manager import ManagerAgent
 from agentverse.agents.research import ResearchAgent
 from agentverse.agents.security import SecurityAgent
 from agentverse.agents.testing import TestingAgent
 from agentverse.llm import get_llm_client
+from agentverse.message import TaskMessage
 from agentverse.task import Task
 
 def main():
@@ -24,8 +26,18 @@ def main():
     analyzed_tasks = researcher.analyze_requirements()
     print(f"Generated tasks from requirements: {analyzed_tasks}")
 
-    # Instantiate the ManagerAgent
+    # Instantiate the ManagerAgent and DeveloperAgent for communication demo
     manager = ManagerAgent(name="Manager", description="Manages task orchestration and agent assignment.")
+    developer = DeveloperAgent(name="Developer", description="Generates code based on structured tasks.", llm_client=llm_client)
+
+    print("\nDemonstrating basic agent communication...")
+    task_message = TaskMessage(sender="Manager", recipient="Developer", task=task1)
+    manager.send_message(developer, task_message)
+    
+    print("Processing inbox for Manager...")
+    manager.process_inbox()
+    print("Processing inbox for Developer...")
+    developer.process_inbox()
 
     # Instantiate the TestingAgent
     testing_agent = TestingAgent(name="Tester", description="Generates test cases for given code.", llm_client=llm_client)
