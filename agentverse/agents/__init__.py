@@ -12,6 +12,10 @@ class Agent(ABC):
         self.name = name
         self.description = description
 
+    def send_message(self, recipient: 'Agent', message: Message) -> None:
+        """Send a message to a recipient agent."""
+        print(f"From: {self.name} | To: {recipient.name} | Content: {message.content}")
+
     @abstractmethod
     def run(self, *args, **kwargs):
         pass
