@@ -35,6 +35,16 @@ Generate the test cases below:
 """
         return prompt_template
 
+    def process_inbox(self) -> None:
+        """Iterate through the agent's inbox, process messages, and clear the inbox."""
+        if not hasattr(self, "inbox") or not self.inbox:
+            return
+        
+        for message in self.inbox:
+            print(f"TestingAgent {self.name} processing message from {message.sender}: {message.content}")
+        
+        self.inbox.clear()
+
     def generate_test_cases(self, code: str) -> List[str]:
         """
         Generates test cases for the given Python code.

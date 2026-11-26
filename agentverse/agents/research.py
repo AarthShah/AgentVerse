@@ -92,6 +92,16 @@ Structured Analysis:
                 tasks.append(Task(task_id="analyze_stories_fallback", description="Review user stories and identify core requirements."))
         return tasks
 
+    def process_inbox(self) -> None:
+        """Iterate through the agent's inbox, process messages, and clear the inbox."""
+        if not hasattr(self, "inbox") or not self.inbox:
+            return
+        
+        for message in self.inbox:
+            print(f"ResearchAgent {self.name} processing message from {message.sender}: {message.content}")
+        
+        self.inbox.clear()
+
     def run(self, *args, **kwargs) -> List[Task]:
         """
         The main execution method for the Research Agent.

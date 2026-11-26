@@ -87,6 +87,16 @@ class DeveloperAgent(Agent):
         response = self._call_llm(prompt)
         return response.strip()
 
+    def process_inbox(self) -> None:
+        """Iterate through the agent's inbox, process messages, and clear the inbox."""
+        if not hasattr(self, "inbox") or not self.inbox:
+            return
+        
+        for message in self.inbox:
+            print(f"DeveloperAgent {self.name} processing message from {message.sender}: {message.content}")
+        
+        self.inbox.clear()
+
     def run(self, task: Task, *args, **kwargs) -> str:
         """Execute code generation for a given task.
 

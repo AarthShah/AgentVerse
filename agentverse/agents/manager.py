@@ -39,6 +39,17 @@ class ManagerAgent(Agent):
                 self.assign_task(task, assigned_agent)
                 print(f"Orchestrated task {task.task_id} and assigned to {assigned_agent}")
 
+    def process_inbox(self) -> None:
+        """Iterate through the agent's inbox, process messages, and clear the inbox."""
+        if not hasattr(self, "inbox") or not self.inbox:
+            return
+        
+        for message in self.inbox:
+            # Process message based on type or content
+            print(f"ManagerAgent {self.name} processing message from {message.sender}: {message.content}")
+        
+        self.inbox.clear()
+
     def run(self, *args, **kwargs):
         """Run the manager agent's primary loop."""
         pass

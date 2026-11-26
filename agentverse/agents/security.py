@@ -31,6 +31,16 @@ class SecurityAgent(Agent):
         """
         super().__init__(name, description, llm_client)
 
+    def process_inbox(self) -> None:
+        """Iterate through the agent's inbox, process messages, and clear the inbox."""
+        if not hasattr(self, "inbox") or not self.inbox:
+            return
+        
+        for message in self.inbox:
+            print(f"SecurityAgent {self.name} processing message from {message.sender}: {message.content}")
+        
+        self.inbox.clear()
+
     def scan_for_vulnerabilities(self, code: str) -> str:
         """Performs a rudimentary scan for common security issues in the provided code.
 
