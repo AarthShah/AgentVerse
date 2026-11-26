@@ -37,3 +37,22 @@ class TaskMessage(Message):
 
     def __repr__(self) -> str:
         return f"TaskMessage(sender='{self.sender}', recipient='{self.recipient}', content='{self.content}', task_description='{self.task_description}', due_date='{self.due_date}', timestamp='{self.timestamp}')"
+
+class ResultMessage(Message):
+    """
+    Represents a message conveying the result or status update of an operation.
+
+    Attributes:
+        sender (str): The name of the agent sending the message.
+        recipient (str): The name of the agent receiving the message.
+        content (str): The content of the message.
+        result_data (Any): The data or payload resulting from the operation.
+        status (str): The outcome status of the operation (e.g., 'success', 'failure').
+    """
+    def __init__(self, sender: str, recipient: str, content: str, result_data: any, status: str):
+        super().__init__(sender, recipient, content)
+        self.result_data = result_data
+        self.status = status
+
+    def __repr__(self) -> str:
+        return f"ResultMessage(sender='{self.sender}', recipient='{self.recipient}', content='{self.content}', result_data='{self.result_data}', status='{self.status}', timestamp='{self.timestamp}')"
