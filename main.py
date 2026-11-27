@@ -26,6 +26,14 @@ def main():
     analyzed_tasks = researcher.analyze_requirements()
     print(f"Generated tasks from requirements: {analyzed_tasks}")
 
+    # Create sample tasks
+    task1 = Task(task_id="1", description="Develop user authentication module.")
+    task2 = Task(task_id="2", description="Implement API endpoints for data retrieval.")
+    task3 = Task(task_id="3", description="Write unit tests for the authentication module.")
+    task4 = Task(task_id="4", description="Set up CI/CD pipeline.")
+
+    sample_tasks = [task1, task2, task3, task4]
+
     # Instantiate the ManagerAgent and DeveloperAgent for communication demo
     manager = ManagerAgent(name="Manager", description="Manages task orchestration and agent assignment.")
     developer = DeveloperAgent(name="Developer", description="Generates code based on structured tasks.", llm_client=llm_client)
@@ -44,14 +52,6 @@ def main():
 
     # Instantiate the SecurityAgent
     security_agent = SecurityAgent(name="Security", description="Performs vulnerability scans.", llm_client=llm_client)
-
-    # Create sample tasks
-    task1 = Task(task_id="1", description="Develop user authentication module.")
-    task2 = Task(task_id="2", description="Implement API endpoints for data retrieval.")
-    task3 = Task(task_id="3", description="Write unit tests for the authentication module.")
-    task4 = Task(task_id="4", description="Set up CI/CD pipeline.")
-
-    sample_tasks = [task1, task2, task3, task4]
 
     # Orchestrate the tasks and demonstrate LLM reasoning integration
     print("\nOrchestrating tasks...")
