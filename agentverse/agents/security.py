@@ -41,6 +41,10 @@ class SecurityAgent(Agent):
         
         self.inbox.clear()
 
+    def run(self, message: Any) -> None:
+        """Receives and processes incoming messages or tasks."""
+        print(f"SecurityAgent {self.name} received message: {message}")
+
     def scan_for_vulnerabilities(self, code: str) -> str:
         """Performs a rudimentary scan for common security issues in the provided code.
 
