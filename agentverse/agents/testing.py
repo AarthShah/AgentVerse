@@ -35,15 +35,14 @@ Generate the test cases below:
 """
         return prompt_template
 
-    def process_inbox(self) -> None:
-        """Iterate through the agent's inbox, process messages, and clear the inbox."""
-        if not hasattr(self, "inbox") or not self.inbox:
-            return
-        
-        for message in self.inbox:
-            print(f"TestingAgent {self.name} processing message from {message.sender}: {message.content}")
-        
-        self.inbox.clear()
+    def handle_message(self, message: Any) -> None:
+        """Handle incoming messages."""
+        print(f"TestingAgent {self.name} processing message from {message.sender}: {message.content}")
+
+    def run(self, *args: Any, **kwargs: Any) -> Any:
+        """Placeholder run method for the testing agent."""
+        if hasattr(self, "process_inbox"):
+            self.process_inbox()
 
     def generate_test_cases(self, code: str) -> List[str]:
         """
