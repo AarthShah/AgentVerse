@@ -3,6 +3,7 @@ from openai import OpenAI
 from langchain.prompts import PromptTemplate
 from agentverse.agents import Agent
 from agentverse.task import Task
+from agentverse.communication import TaskMessage
 
 
 class DeveloperAgentError(Exception):
@@ -97,18 +98,26 @@ class DeveloperAgent(Agent):
         
         self.inbox.clear()
 
-    def run(self, task: Task, *args, **kwargs) -> str:
-        """Execute code generation for a given task.
+    def run(self, task: Any, *args, **kwargs) -> str:
+        """Execute code generation for a given task or task message.
 
         Acts as the primary entry point for executing code generation work assigned
-        to the developer agent based on the provided task details.
+        to the developer agent based on the provided task details or task message.
 
         Args:
-            task (Task): The task object containing instructions and description for code generation.
+            task (Any): The task object, TaskMessage, or string description for code generation.
             *args: Additional positional arguments.
             **kwargs: Additional keyword arguments.
 
         Returns:
             str: The generated code implementation.
         """
-        return self.generate_code(task.description)
+        if isinstance(task, TaskMessage):
+            instruction = task.content
+        elif isinstance(task, Task):
+            instruction = task.description
+        elif isinstance(task, str):
+            instruction = task
+        else:
+            instruction = getattr(task, "description", str(task))
+        return self.generate_code(instruction)
