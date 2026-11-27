@@ -3,7 +3,7 @@ from openai import OpenAI
 from langchain.prompts import PromptTemplate
 from agentverse.agents import Agent
 from agentverse.task import Task
-from agentverse.communication import TaskMessage
+from agentverse.communication import TaskMessage, ResultMessage
 
 
 class DeveloperAgentError(Exception):
@@ -98,11 +98,12 @@ class DeveloperAgent(Agent):
         
         self.inbox.clear()
 
-    def run(self, task: Any, *args, **kwargs) -> str:
+    def run(self, task: Any, *args, **kwargs) -> ResultMessage:
         """Execute code generation for a given task or task message.
 
         Acts as the primary entry point for executing code generation work assigned
-        to the developer agent based on the provided task details or task message.
+        to the developer agent based on the provided task details or task message,
+        packaging the generated code into a ResultMessage destined for the ManagerAgent.
 
         Args:
             task (Any): The task object, TaskMessage, or string description for code generation.
@@ -110,14 +111,26 @@ class DeveloperAgent(Agent):
             **kwargs: Additional keyword arguments.
 
         Returns:
-            str: The generated code implementation.
+            ResultMessage: The result message containing the generated code implementation and task ID if applicable.
         """
+        task_id = None
         if isinstance(task, TaskMessage):
             instruction = task.content
+            task_id = getattr(task, "task_id", None)
         elif isinstance(task, Task):
             instruction = task.description
+            task_id = getattr(task, "task_id", None)
         elif isinstance(task, str):
             instruction = task
         else:
             instruction = getattr(task, "description", str(task))
-        return self.generate_code(instruction)
+            task_id = getattr(task, "task_id", None)
+
+        code = self.generate_code(instruction)
+        
+        result_msg = ResultMessage(
+            sender=self.name,
+            task_id=task_id or "unknown_task",
+            result=code
+        )
+        return result_msg
