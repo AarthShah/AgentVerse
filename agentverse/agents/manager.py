@@ -74,7 +74,6 @@ class ManagerAgent(Agent):
         print(f"ManagerAgent {self.name} starting its run loop.")
         # Initial orchestration to set up the first task
         self.orchestrate_task()
-        # In a real-time system, this loop would continuously check for new tasks, messages, etc.
-        # For this example, we'll just run orchestration once.
-        self.process_inbox() # Process any initial messages if any
+        # Process incoming messages (such as ResultMessage containing generated code)
+        self.process_inbox()
         print(f"ManagerAgent {self.name} finished its initial run.")
